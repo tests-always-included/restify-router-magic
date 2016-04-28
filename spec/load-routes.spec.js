@@ -8,7 +8,10 @@ describe("loadRoutes", function () {
 
         findMethodMock = jasmine.createSpy("findMethodMock").andReturn("get");
         pathMock = {
-            delimiter: "/"
+            resolve: function (input) {
+                return input;
+            },
+            sep: "/"
         };
         config = {
             camelCase: "never",
@@ -130,7 +133,7 @@ describe("loadRoutes", function () {
             });
         });
     });
-    describe("method names", function (done) {
+    describe("method names", function () {
         it("errors when you use an undefined method", function (done) {
             findMethodMock.andReturn(null);
             requireFn.andCallFake(function () {
@@ -207,8 +210,6 @@ describe("loadRoutes", function () {
             loadRoutes(serverMock, config, [
                 "./routes/testing/index.js"
             ], function (err, routeDefs) {
-                var args;
-
                 expect(calledFactory).toBe(true);
                 expect(routeDefs.length).toBe(1);
                 expect(routeDefs[0].uri).toBe("/testing");
@@ -232,8 +233,6 @@ describe("loadRoutes", function () {
             loadRoutes(serverMock, config, [
                 "test"
             ], function (err, routeDefs) {
-                var args;
-
                 expect(routeDefs.length).toBe(1);
                 expect(routeDefs[0].middleware.length).toBe(2);
                 done(err);

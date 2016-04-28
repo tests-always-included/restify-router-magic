@@ -39,7 +39,7 @@ describe("parseConfig", function () {
         var pathMock;
 
         pathMock = {
-            delimiter: "/"
+            sep: "/"
         };
         parseConfig= require("../lib/parse-config")(pathMock);
         propertyToTest = null;

@@ -110,7 +110,7 @@ describe("restifyRouterMagic", function () {
         restifyRouterMagic(serverMock, function (err) {
             expect(serverMock.get).toHaveBeenCalledWith("/test1", mw1);
             expect(serverMock.post).toHaveBeenCalledWith("/test2", mw2, mw3);
-            done();
+            done(err);
         });
     });
 });
