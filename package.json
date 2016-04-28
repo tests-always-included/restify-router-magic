@@ -1,0 +1,45 @@
+{
+    "name": "restify-router-magic",
+    "version": "1.0.0",
+    "description": "Automatically hook routes up using handlers in multiple files",
+    "main": "lib/index.js",
+    "scripts": {
+        "watch": "jasmine-node --autotest lib spec",
+        "test": "jasmine-node lib spec"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/opentoken-io/restify-router-magic.git"
+    },
+    "keywords": [
+        "restify",
+        "route",
+        "router",
+        "magic",
+        "automatically",
+        "automatic"
+    ],
+    "author": "OpenToken Team",
+    "contributors": [
+        {
+            "name": "Tyler Akins",
+            "email": "fidian@rumkin.com",
+            "url": "https://github.com/fidian"
+        },
+        {
+            "name": "Christopher Tetreault",
+            "url": "https://github.com/AbsentSemicolon"
+        }
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/opentoken-io/restify-router-magic/issues"
+    },
+    "homepage": "https://github.com/opentoken-io/restify-router-magic#readme",
+    "devDependencies": {
+        "jasmine-node": "^1.14.5"
+    },
+    "dependencies": {
+        "glob": "^7.0.3"
+    }
+}
