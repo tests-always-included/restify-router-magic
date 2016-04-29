@@ -9,7 +9,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/opentoken-io/restify-router-magic.git"
+        "url": "git+https://github.com/tests-always-included/restify-router-magic.git"
     },
     "keywords": [
         "restify",
@@ -19,23 +19,19 @@
         "automatically",
         "automatic"
     ],
-    "author": "OpenToken Team",
+    "author": "Tests-Always-Included",
     "contributors": [
         {
             "name": "Tyler Akins",
             "email": "fidian@rumkin.com",
             "url": "https://github.com/fidian"
-        },
-        {
-            "name": "Christopher Tetreault",
-            "url": "https://github.com/AbsentSemicolon"
         }
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/opentoken-io/restify-router-magic/issues"
+        "url": "https://github.com/tests-always-included/restify-router-magic/issues"
     },
-    "homepage": "https://github.com/opentoken-io/restify-router-magic#readme",
+    "homepage": "https://github.com/tests-always-included/restify-router-magic#readme",
     "devDependencies": {
         "jasmine-node": "^1.14.5"
     },
