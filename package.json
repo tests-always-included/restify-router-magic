@@ -1,6 +1,6 @@
 {
     "name": "restify-router-magic",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Automatically hook routes up using handlers in multiple files",
     "main": "lib/index.js",
     "scripts": {

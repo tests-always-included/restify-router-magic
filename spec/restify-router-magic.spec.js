@@ -103,13 +103,17 @@ describe("restifyRouterMagic", function () {
                     mw2,
                     mw3
                 ],
+                name: "some-name",
                 serverMethod: "post",
                 uri: "/test2"
             }
         ];
         restifyRouterMagic(serverMock, function (err) {
             expect(serverMock.get).toHaveBeenCalledWith("/test1", mw1);
-            expect(serverMock.post).toHaveBeenCalledWith("/test2", mw2, mw3);
+            expect(serverMock.post).toHaveBeenCalledWith({
+                name: "some-name",
+                path: "/test2"
+            }, mw2, mw3);
             done(err);
         });
     });

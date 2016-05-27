@@ -23,7 +23,7 @@ describe("loadRoutes", function () {
             "del",
             "get"
         ]);
-        loadRoutes= require("../lib/load-routes")(findMethodMock, pathMock, requireFn);
+        loadRoutes = require("../lib/load-routes")(findMethodMock, pathMock, requireFn);
     });
     it("does not load files when passed an empty array", function (done) {
         loadRoutes(serverMock, config, [], function (err) {
@@ -235,6 +235,24 @@ describe("loadRoutes", function () {
             ], function (err, routeDefs) {
                 expect(routeDefs.length).toBe(1);
                 expect(routeDefs[0].middleware.length).toBe(2);
+                done(err);
+            });
+        });
+        it("assigns a named route when there is a name property", function (done) {
+            var func1;
+
+            func1 = function () {};
+            requireFn.andCallFake(function () {
+                return {
+                    get: func1,
+                    name: "testing"
+                };
+            });
+            loadRoutes(serverMock, config, [
+                "test"
+            ], function (err, routeDefs) {
+                expect(routeDefs.length).toBe(1);
+                expect(routeDefs[0].name).toBe("testing");
                 done(err);
             });
         });
