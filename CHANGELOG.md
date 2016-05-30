@@ -2,7 +2,13 @@ CHANGELOG
 =========
 
 
-1.0.3 - 2016-05-27
+1.0.5 - 2016-05-30
+------------------
+
+* Removed a debug line that was foolishly left in the code.
+
+
+1.0.4 - 2016-05-30
 ------------------
 
 * Implemented a workaround to [node-restify issue #1115](https://github.com/restify/node-restify/issues/1115).  When dealing with named routes, only the first one is entered with that name.  The rest have a unique, modified name.
