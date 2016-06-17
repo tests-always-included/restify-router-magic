@@ -1,12 +1,20 @@
 "use strict";
 
 describe("scanFiles", function () {
-    var scanFiles, globMock;
+    var fsMock, globMock, scanFiles;
 
     beforeEach(function () {
         globMock = jasmine.createSpy("glob");
         globMock.sync = jasmine.createSpy("glob.sync");
-        scanFiles = require("../lib/scan-files.js")(globMock);
+        fsMock = jasmine.createSpyObj("fs", [
+            "access",
+            "accessSync"
+        ]);
+        fsMock.access.andCallFake(function (path, access, callback) {
+            callback(null);
+        });
+        fsMock.R_OK = "R_OK";
+        scanFiles = require("../lib/scan-files.js")(fsMock, globMock);
     });
     it("operates asynchronously", function (done) {
         globMock.andCallFake(function (pattern, options, callback) {
@@ -34,7 +42,10 @@ describe("scanFiles", function () {
             done(err);
         });
     });
-    it("operates synchronously", function (done) {
+    it("operates synchronously", function () {
+        var wasSync;
+
+        wasSync = false;
         globMock.sync.andCallFake(function (pattern, options) {
             expect(pattern).toBe("./routes/**/*.js");
             expect(options).toEqual({
@@ -57,7 +68,35 @@ describe("scanFiles", function () {
                 "file1",
                 "file2"
             ]);
-            done(err);
+            wasSync = true;
         });
+        expect(wasSync).toBe(true);
+    });
+    it("errors asynchronously if path is wrong", function (done) {
+        fsMock.access.andCallFake(function (path, access, callback) {
+            callback(new Error("fake error"));
+        });
+        scanFiles({
+            routesMatch: "**/*.js",
+            routesPath: "./routes/"
+        }, function (err) {
+            expect(err).toEqual(jasmine.any(Error));
+            done();
+        });
+    });
+    it("errors synchronously if path is wrong", function () {
+        var wasSync;
+
+        fsMock.accessSync.andThrow(new Error());
+        wasSync = false;
+        scanFiles({
+            routesMatch: "**/*.js",
+            routesPath: "./routes/",
+            sync: true
+        }, function (err) {
+            wasSync = true;
+            expect(err).toEqual(jasmine.any(Error))
+        });
+        expect(wasSync).toBe(true);
     });
 });
