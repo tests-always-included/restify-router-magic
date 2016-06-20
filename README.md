@@ -11,7 +11,7 @@ Purpose and Features
 
 This library will take the files in a `routes/` folder (configurable) and generate routes automatically.  Routes are able to contain parameters.  These files will define the HTTP method and the handler to use.
 
-To help illustrate the mapping, here are some filenames and routes.
+To help illustrate the mapping, here are some filenames and routes.  The filename is based on the current working directory when the script is executed.
 
 | Filename                     | Route                            |
 |------------------------------|----------------------------------|
@@ -101,7 +101,7 @@ Full API Documentation
     * `config.indexWithSlash` - (string) Can be `"force"`, `"never"`, or `"both"`.  Determines if `index.js` files should be exposed as routes with a trailing slash.  `"force"` makes the slash mandatory, `"never"` will only add routes with slashes as the end, `"both"` will add both styles of routes.  When `"both"` is used, factory functions in route files will be called more than once.  Defaults to `"both"` and will throw an `Error` if set to an invalid value.
     * `config.options` - (anything) The value is passed to any factory functions exported by route files.  Defaults to `null`.
     * `config.routesMatch` - (string) Pattern to pass to [glob] for finding what files to load as routes.  The `routesPath` property will be prepended to this value.  Defaults to `"**/*.js"`.
-    * `config.routesPath` - (string) Where to scan for route files.  Defaults to `"./routes/"` and will call the callback with an `Error` if this directory does not exist or if no files are found to add to the routes.
+    * `config.routesPath` - (string) Where to scan for route files.  Defaults to `"./routes/"` and will call the callback with an `Error` if this directory does not exist or if no files are found to add to the routes.  This is relative to the process's working directory.
     * `config.sync` - (boolean) Uses synchronous methods instead of asynchronous methods.  Defaults to `false`.
 * `callback` - (Optional) A callback to execute when all of the files are loaded.
 
