@@ -132,6 +132,16 @@ describe("loadRoutes", function () {
                 done(err);
             });
         });
+        it("changes parameters to use camelCase", function (done) {
+            loadRoutes(serverMock, config, [
+                "./routes/_x-y/index.js"
+            ], function (err, routeDefs) {
+                expect(remapRouteDefs(routeDefs)).toEqual({
+                    "/:xY": "./routes/_x-y/index.js"
+                });
+                done(err);
+            });
+        });
     });
     describe("method names", function () {
         it("errors when you use an undefined method", function (done) {

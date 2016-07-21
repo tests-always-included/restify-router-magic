@@ -2,6 +2,14 @@ CHANGELOG
 =========
 
 
+1.1.0 - 2016-07-21
+------------------
+
+This breaks backwards compatibility in an obscure way.  Minor version number increased because of the behavior change.
+
+* Changed parameterized routes so hyphenated parameters are changed to camel case.  For example, `routes/_account-id/index.js` will change into the route `/:accountId/index.js`.
+
+
 1.0.5 - 2016-05-30
 ------------------
 

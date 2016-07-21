@@ -13,15 +13,18 @@ This library will take the files in a `routes/` folder (configurable) and genera
 
 To help illustrate the mapping, here are some filenames and routes.  The filename is based on the current working directory when the script is executed.
 
-| Filename                     | Route                            |
-|------------------------------|----------------------------------|
-| `routes/index.js`            | `/`                              |
-| `routes/login.js`            | `/login`                         |
-| `routes/status-page.js`      | `/statusPage` and `/status-page` |
-| `routes/pets/index.js`       | `/pets` and `/pets/`             |
-| `routes/pets/_name/index.js` | `/pets/:name` and `/pets/:name/` |
+| Filename                       | Route                              |
+|--------------------------------|------------------------------------|
+| `routes/index.js`              | `/`                                |
+| `routes/login.js`              | `/login`                           |
+| `routes/status-page.js`        | `/statusPage` and `/status-page`   |
+| `routes/pets/index.js`         | `/pets` and `/pets/`               |
+| `routes/pets/_name/index.js`   | `/pets/:name` and `/pets/:name/`   |
+| `routes/pets/_tag-id/index.js` | `/pets/:tagId` and `/pets/:tagId/` |
 
 You will notice that filenames with hyphens turn into both hyphenated and camel case routes.  The same happens for `index.js` - the route can optionally have a trailing slash.  Of course, you can alter the behavior of the library to offer only one version or the other.
+
+Also, because parameters are difficult to use when they are hyphenated, folders like `_tag-id` are changed into `:tagId` in the route.  You'll be able to use them as `req.params.tagId` instead of the more tedious `req.params['tag-id']`.
 
 In addition to the automatic routing using convention over configuration, this module also supports using factory functions to generate routes.
 
