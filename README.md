@@ -5,6 +5,11 @@ Generate routes from a directory containing your route handlers so you can organ
 
 This was created for [Restify] because there wasn't a similar module in [npm] yet.  Interestingly, this can be used for Express and other frameworks that employ a `.use()` function, `.METHOD()` style functions, and the same type of middleware (`request`, `response`, and `next` as parameters).
 
+[![npm version][npm-badge]][npm-link]
+[![Build Status][travis-badge]][travis-link]
+[![Dependencies][dependencies-badge]][dependencies-link]
+[![Dev Dependencies][devdependencies-badge]][devdependencies-link]
+
 
 Purpose and Features
 --------------------
@@ -207,15 +212,22 @@ Instead of making the exported function register itself to "/", we preferred to 
 License
 =======
 
-The [MIT License] covers all of this code.  [♥]
+The [MIT License] covers all of this code.
 
 
+[dependencies-badge]: https://img.shields.io/david/tests-always-included/restify-router-magic.svg
+[dependencies-link]: https://david-dm.org/tests-always-included/restify-router-magic
+[devdependencies-badge]: https://img.shields.io/david/dev/tests-always-included/restify-router-magic.svg
+[devdependencies-link]: https://david-dm.org/tests-always-included/restify-router-magic#info=devDependencies
 [Dizzy]: https://github.com/tests-always-included/dizzy
 [Express]: http://expressjs.com/
 [HTTP Methods]: https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
 [MIT License]: LICENSE.md
 [node-di]: https://github.com/vojtajina/node-di
+[npm-badge]: https://img.shields.io/npm/v/restify-router-magic.svg
 [npm]: https://www.npmjs.com/
-[Restify]: http://restify.com/
+[npm-link]: https://npmjs.org/package/restify-router-magic
 [restify.CORS()]: http://restify.com/#cors
-[♥]: https://www.google.com/search?q=giving+back+to+open+source
+[Restify]: http://restify.com/
+[travis-badge]: https://img.shields.io/travis/tests-always-included/restify-router-magic/master.svg
+[travis-link]: http://travis-ci.org/tests-always-included/restify-router-magic
