@@ -2,6 +2,12 @@ CHANGELOG
 =========
 
 
+1.1.1 - 2018-04-11
+------------------
+
+* Fixing issue #4: When using a route file that isn't `index.js`, this breaks in Restify.
+
+
 1.1.0 - 2016-07-21
 ------------------
 
