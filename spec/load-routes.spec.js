@@ -90,12 +90,16 @@ describe("loadRoutes", function () {
         it("applies camelCase", function (done) {
             config.camelCase = "both";
             loadRoutes(serverMock, config, [
-                "testing-a-file.js", // Does not have the path
+                "testing.js", // Does not have the path
+                "./routes/testing2.js",
+                "testing-a-file.js", // Also doesn't have the path
                 "./routes/teSTing-2-two.js",
                 "./routes/index.js"
             ], function (err, routeDefs) {
                 expect(remapRouteDefs(routeDefs)).toEqual({
                     "/": "./routes/index.js",
+                    "/testing": "testing.js",
+                    "/testing2": "./routes/testing2.js",
                     "/testingAFile": "testing-a-file.js",
                     "/testing-a-file": "testing-a-file.js",
                     "/teSTing2Two": "./routes/teSTing-2-two.js",
@@ -107,11 +111,37 @@ describe("loadRoutes", function () {
         it("applies indexWithSlash", function (done) {
             config.indexWithSlash = "both";
             loadRoutes(serverMock, config, [
+                "testing.js", // Does not have the path
+                "./routes/testing2.js",
                 "./routes/index.js",
                 "./routes/jelly/index.js"
             ], function (err, routeDefs) {
                 expect(remapRouteDefs(routeDefs)).toEqual({
                     "/": "./routes/index.js",
+                    "/testing": "testing.js",
+                    "/testing2": "./routes/testing2.js",
+                    "/jelly": "./routes/jelly/index.js",
+                    "/jelly/": "./routes/jelly/index.js"
+                });
+                done(err);
+            });
+        });
+        it("applies both camelCase and indexWithSlash", function (done) {
+            config.camelCase = "both";
+            config.indexWithSlash = "both";
+            loadRoutes(serverMock, config, [
+                "testing.js", // Does not have the path
+                "./routes/testing2.js",
+                "./routes/index-f.js",
+                "./routes/index.js",
+                "./routes/jelly/index.js"
+            ], function (err, routeDefs) {
+                expect(remapRouteDefs(routeDefs)).toEqual({
+                    "/": "./routes/index.js",
+                    "/testing": "testing.js",
+                    "/testing2": "./routes/testing2.js",
+                    "/index-f": "./routes/index-f.js",
+                    "/indexF": "./routes/index-f.js",
                     "/jelly": "./routes/jelly/index.js",
                     "/jelly/": "./routes/jelly/index.js"
                 });
