@@ -39,7 +39,8 @@ describe("parseConfig", function () {
         var pathMock;
 
         pathMock = {
-            sep: "/"
+            sep: "/",
+            posix: { sep: "/", }
         };
         parseConfig= require("../lib/parse-config")(pathMock);
         propertyToTest = null;
@@ -126,6 +127,21 @@ describe("parseConfig", function () {
         });
         it("errors when a non-string value is passed", function () {
             expect(propTesterError([])).toThrow();
+        });
+        
+        describe("windows", function() {
+            beforeEach(function () {
+                var pathMock = {
+                    sep: "\\",
+                    posix: { sep: "/", }
+                };
+                parseConfig = require("../lib/parse-config")(pathMock);
+            });
+
+            it("allows any string",
+                function() {
+                    propTester("asdfasdf/");
+                });
         });
     });
     describe(".sync", function () {
