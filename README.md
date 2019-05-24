@@ -3,7 +3,7 @@ Restify Router Magic
 
 Generate routes from a directory containing your route handlers so you can organize your code.  It also supports dependency injection through factory functions.
 
-This was created for [Restify] because there wasn't a similar module in [npm] yet.  Interestingly, this can be used for Express and other frameworks that employ a `.use()` function, `.METHOD()` style functions, and the same type of middleware (`request`, `response`, and `next` as parameters).
+This was created for [Restify] because there wasn't a similar module in [npm] yet.  Interestingly, this can be used for [Express], [restiq], and other frameworks that employ a `.use()` function, `.METHOD()` style functions, and the same type of middleware (`request`, `response`, and `next` as parameters).
 
 [![npm version][npm-badge]][npm-link]
 [![Build Status][travis-badge]][travis-link]
@@ -103,8 +103,8 @@ Full API Documentation
 `routerMagic(server, [config], [callback])`
 -------------------------------------------
 
-* `server` - Instance of a Restify
-* `config` - (Optional) An object that adjusts how Restify Magic does its job.
+* `server` - Instance of a [Restify], [restiq], or [Express]-like server.
+* `config` - (Optional) An object that adjusts how Restify Router Magic does its job.
     * `config.camelCase` - (string) Can be `"force"`, `"never"`, or `"both"`.  Determines if route files such as `home-address.js` files should be exposed as routes in camel case.  `"force"` would add a route of `homeAddress`, `"never"` will only add a route with `home-address` as its name, `"both"` will add both styles of routes.  When `"both"` is used, factory functions in route files will be called more than once.  This affects files as well as directories.  Defaults to `"both"` and will throw an `Error` if set to an invalid value.
     * `config.indexWithSlash` - (string) Can be `"force"`, `"never"`, or `"both"`.  Determines if `index.js` files should be exposed as routes with a trailing slash.  `"force"` makes the slash mandatory, `"never"` will only add routes with slashes as the end, `"both"` will add both styles of routes.  When `"both"` is used, factory functions in route files will be called more than once.  Defaults to `"both"` and will throw an `Error` if set to an invalid value.
     * `config.options` - (anything) The value is passed to any factory functions exported by route files.  Defaults to `null`.
@@ -130,9 +130,9 @@ A route file handles one or more routes.  The simplest form is just exporting an
         put: function (req, res, next) {}
     }
 
-Note: Instead of using `options` you should probably use [restify.CORS()] instead.
+Note: With Restify, you should probably use [restify.CORS()] instead of `options`.
 
-These properties will all map seamlessly to call the server's `.METHOD()` functions.  Both the "delete" and "options" properties will be mapped to `.del()` and `.opts()` for Restify; this mapping is not performed for Express or other servers that object methods that match the HTTP methods.  Please make sure to use HTTP method verbs as property names instead of the method names that are attached to the server object.
+These properties will all map seamlessly to call the server's `.METHOD()` functions.  With restiq, routes are added with `.addRoute()`. Both the "delete" and "options" properties will be mapped to `.del()` and `.opts()` for Restify; this mapping is not performed for Express or other servers that object methods that match the HTTP methods.  Please make sure to use the full HTTP method verbs as property names instead of the method names that are attached to the server object.
 
 There's also a special `name` property that will be used to name the route in Restify.  Do not set this if you are not using Restify.  If you are using Restify, then you don't need to hardcode your routes.  Instead, use Restify's [server.router.render()](http://restify.com/#hypermedia).
 
@@ -195,6 +195,7 @@ Future Ideas
 Let me know if these features would be appealing.
 
 * Ability to show the registered routes.
+* Ability to get URIs that are mapped to named routes, similar to Restify.
 * Using multiple Router Magic calls and having directories map to different URI base paths.
 * Allowing or showing how route files can handle routes that have deeper URIs without making a filesystem structure to match.  This may be an anti-pattern, but I could see some reasons that people would want to support it.
 * Serving static files automatically.
@@ -228,6 +229,7 @@ The [MIT License] covers all of this code.
 [npm]: https://www.npmjs.com/
 [npm-link]: https://npmjs.org/package/restify-router-magic
 [restify.CORS()]: http://restify.com/#cors
+[restiq]: https://github.com/andrasq/node-restiq
 [Restify]: http://restify.com/
 [travis-badge]: https://img.shields.io/travis/tests-always-included/restify-router-magic/master.svg
 [travis-link]: http://travis-ci.org/tests-always-included/restify-router-magic

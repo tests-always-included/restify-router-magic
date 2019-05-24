@@ -117,4 +117,37 @@ describe("restifyRouterMagic", function () {
             done(err);
         });
     });
+    it("attaches routes for restiq", function (done) {
+        var mw1, mw2, mw3, restiqMock;
+
+        mw1 = function () {};
+        mw2 = function () {};
+        mw3 = function () {};
+        restiqMock = jasmine.createSpyObj("restiq", [
+            "addRoute"
+        ]);
+        loadRoutes.result = [
+            {
+                httpMethod: "get",
+                middleware: [
+                    mw1
+                ],
+                uri: "/test1"
+            },
+            {
+                httpMethod: "POST",
+                middleware: [
+                    mw2,
+                    mw3
+                ],
+                name: "some-name",
+                uri: "/test2"
+            }
+        ];
+        restifyRouterMagic(restiqMock, function (err) {
+            expect(restiqMock.addRoute).toHaveBeenCalledWith("GET", "/test1", [ mw1 ]);
+            expect(restiqMock.addRoute).toHaveBeenCalledWith("POST", "/test2", [ mw2, mw3 ]);
+            done(err);
+        });
+    });
 });

@@ -174,7 +174,7 @@ describe("loadRoutes", function () {
         });
     });
     describe("method names", function () {
-        it("errors when you use an undefined method", function (done) {
+        it("does not error when you use an undefined method", function (done) {
             findMethodMock.andReturn(null);
             requireFn.andCallFake(function () {
                 return {
@@ -185,9 +185,21 @@ describe("loadRoutes", function () {
             });
             loadRoutes(serverMock, config, [
                 "test"
-            ], function (err) {
-                expect(err).toEqual(jasmine.any(Error));
-                expect(err.toString()).toContain("Could not map method");
+            ], function (err, routeDefs) {
+                expect(err).toBeFalsy();
+                expect(routeDefs).toEqual([
+                    {
+                        filename: "test",
+                        httpMethod: "post",
+                        middleware: [
+                            jasmine.any(Function)
+                        ],
+                        name: null,
+                        serverMethod: null,
+                        uniqueName: null,
+                        uri: "/test"
+                    }
+                ]);
                 done();
             });
         });
