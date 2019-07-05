@@ -10,6 +10,8 @@ This was created for [Restify] because there wasn't a similar module in [npm] ye
 [![Dependencies][dependencies-badge]][dependencies-link]
 [![Dev Dependencies][devdependencies-badge]][devdependencies-link]
 
+Version 1.1.2 and forward have a TypeScript definitions file.
+
 
 Purpose and Features
 --------------------
@@ -168,6 +170,13 @@ There's also a special `name` property that will be used to name the route in Re
 
     // Result of a GET on /city/Minneapolis?state=MN"
     city: Minneapolis, MN
+
+TypeScript works here too.
+
+    // Route is a combined type for both RouteObject and RouteFactory
+    import { Route } from 'restify-router-magic';
+
+    module.exports: Route = ...
 
 Express supports other methods as well.  You're welcome to just add `connect`, `trace`, and all the rest as property names in the exports.  For methods that have a hyphen you will need to quote them, as in `"m-search"`.
 
