@@ -41,12 +41,12 @@ Example
 
 At its simplest, you need to do only two things.  First, your `app.js`:
 
-    var restify, routerMagic, server;
+    var restify, restifyRouterMagic, server;
 
     restify = require("restify");
-    routerMagic = require("routerMagic");
+    restifyRouterMagic = require("restify-router-magic");
     server = restify.createServer();
-    routerMagic(server);  // Note: this is async - more explanation later
+    restifyRouterMagic(server);  // Note: this is async - more explanation later
     server.listen(8080, function () {
         console.log("Sample application listening on port 8080");
     });
@@ -62,9 +62,9 @@ And secondly you will make `routes/index.js`:
 
 And you're done.  You now have a working example.  If you want to add more routes and complex logic, you simply add more files to `routes/`.
 
-Let's add a more complex route.  In this case we want to use a factory to generate our route because we want to inject additional dependencies into the code and we want to configure how `routerMagic` does its thing.  Alter your `app.js` and change the call to `routerMagic()` to look like this:
+Let's add a more complex route.  In this case we want to use a factory to generate our route because we want to inject additional dependencies into the code and we want to configure how `restifyRouterMagic` does its thing.  Alter your `app.js` and change the call to `restifyRouterMagic()` to look like this:
 
-    routerMagic(server, {
+    restifyRouterMagic(server, {
         // The "options" property is sent into factories
         options: {
             suffix: "This is a suffix"
@@ -98,16 +98,47 @@ This pattern will let you inject dependencies or even dependency injection conta
         "thing": "elephants"
     }
 
+When using TypeScript, you will need to make small adjustments.
+
+    // Using import instead of require
+    import restifyRouterMagic from "restify-router-magic";
+
+
+    // You will want to change at least these two options.
+    restifyRouterMagic(server, {
+        indexName: "index.ts",
+        routesMatch: "**/*.ts"
+    });
+
+
+    // This is your route file, /routes/index.ts
+    // Routes that use factories can export a default function.
+    export default function (server, path, options) {
+        function getFn(req, res, next) {
+            res.send(200, {
+                path: path,  // Generated from the file path
+                suffix: options.suffix,  // From the "options" property
+                thing: req.params.thing  // From the parameterized route
+            });
+            next();
+        }
+
+        return {
+            get: getFn
+        };
+    }
+
 
 Full API Documentation
 ======================
 
-`routerMagic(server, [config], [callback])`
--------------------------------------------
+`restifyRouterMagic(server, [config], [callback])`
+--------------------------------------------------
 
 * `server` - Instance of a [Restify], [restiq], or [Express]-like server.
 * `config` - (Optional) An object that adjusts how Restify Router Magic does its job.
     * `config.camelCase` - (string) Can be `"force"`, `"never"`, or `"both"`.  Determines if route files such as `home-address.js` files should be exposed as routes in camel case.  `"force"` would add a route of `homeAddress`, `"never"` will only add a route with `home-address` as its name, `"both"` will add both styles of routes.  When `"both"` is used, factory functions in route files will be called more than once.  This affects files as well as directories.  Defaults to `"both"` and will throw an `Error` if set to an invalid value.
+    * `config.indexName` - (string) Name of the file that would be used if the URL matches a directory. Defaults to "index.js".
     * `config.indexWithSlash` - (string) Can be `"force"`, `"never"`, or `"both"`.  Determines if `index.js` files should be exposed as routes with a trailing slash.  `"force"` makes the slash mandatory, `"never"` will only add routes with slashes as the end, `"both"` will add both styles of routes.  When `"both"` is used, factory functions in route files will be called more than once.  Defaults to `"both"` and will throw an `Error` if set to an invalid value.
     * `config.options` - (anything) The value is passed to any factory functions exported by route files.  Defaults to `null`.
     * `config.routesMatch` - (string) Pattern to pass to [glob] for finding what files to load as routes.  The `routesPath` property will be prepended to this value.  Defaults to `"**/*.js"`.

@@ -51,6 +51,7 @@ describe("parseConfig", function () {
     it("returns defaults when not passed an object", function () {
         expect(parseConfig()).toEqual({
             camelCase: "both",
+            indexName: "index.js",
             indexWithSlash: "both",
             options: null,
             routesMatch: "**/*.js",
@@ -70,6 +71,17 @@ describe("parseConfig", function () {
         it("errors when an invalid string value is passed", function () {
             expect(propTesterError("wrong")).toThrow();
         });
+        it("errors when a non-string value is passed", function () {
+            expect(propTesterError(true)).toThrow();
+        });
+    });
+    describe(".indexName", function () {
+        beforeEach(function () {
+            propertyToTest = "indexName";
+        });
+        allowsValues("indexName", [
+            "index.ts"
+        ]);
         it("errors when a non-string value is passed", function () {
             expect(propTesterError(true)).toThrow();
         });
@@ -128,7 +140,7 @@ describe("parseConfig", function () {
         it("errors when a non-string value is passed", function () {
             expect(propTesterError([])).toThrow();
         });
-        
+
         describe("windows", function() {
             beforeEach(function () {
                 var pathMock = {

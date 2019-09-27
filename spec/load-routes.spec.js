@@ -15,6 +15,7 @@ describe("loadRoutes", function () {
         };
         config = {
             camelCase: "never",
+            indexName: "index.js",
             indexWithSlash: "never",
             routesPath: "./routes/"
         };
