@@ -1,6 +1,6 @@
 {
     "name": "restify-router-magic",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "description": "Automatically hook routes up using handlers in multiple files",
     "main": "lib/index.js",
     "types": "index.d.ts",
@@ -37,6 +37,6 @@
         "jasmine-node": "^3.0.0"
     },
     "dependencies": {
-        "glob": "^11.0.3"
+        "glob": "^13.0.6"
     }
 }

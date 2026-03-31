@@ -4,8 +4,10 @@ describe("scanFiles", function () {
     var fsMock, globMock, scanFiles;
 
     beforeEach(function () {
-        globMock = jasmine.createSpy("glob");
-        globMock.sync = jasmine.createSpy("glob.sync");
+        globMock = {
+            glob: jasmine.createSpy("glob"),
+            globSync: jasmine.createSpy("globSync")
+        };
         fsMock = jasmine.createSpyObj("fs", [
             "access",
             "accessSync"
@@ -13,17 +15,18 @@ describe("scanFiles", function () {
         fsMock.access.andCallFake(function (path, access, callback) {
             callback(null);
         });
-        fsMock.R_OK = "R_OK";
+        fsMock.constants = {
+            R_OK: "R_OK"
+        };
         scanFiles = require("../lib/scan-files.js")(fsMock, globMock);
     });
     it("operates asynchronously", function (done) {
-        globMock.andCallFake(function (pattern, options, callback) {
+        globMock.glob.andCallFake(function (pattern, options, callback) {
             expect(pattern).toBe("./routes/**/*.js");
             expect(options).toEqual({
-                nodir: true,
-                strict: true
+                nodir: true
             });
-            callback(null, [
+            return Promise.resolve([
                 "file1",
                 "file2"
             ]);
@@ -33,8 +36,8 @@ describe("scanFiles", function () {
             routesPath: "./routes/",
             sync: false
         }, function (err, fileList) {
-            expect(globMock).toHaveBeenCalled();
-            expect(globMock.sync).not.toHaveBeenCalled();
+            expect(globMock.glob).toHaveBeenCalled();
+            expect(globMock.globSync).not.toHaveBeenCalled();
             expect(fileList).toEqual([
                 "file1",
                 "file2"
@@ -46,11 +49,10 @@ describe("scanFiles", function () {
         var wasSync;
 
         wasSync = false;
-        globMock.sync.andCallFake(function (pattern, options) {
+        globMock.globSync.andCallFake(function (pattern, options) {
             expect(pattern).toBe("./routes/**/*.js");
             expect(options).toEqual({
-                nodir: true,
-                strict: true
+                nodir: true
             });
             return [
                 "file1",
@@ -62,8 +64,8 @@ describe("scanFiles", function () {
             routesPath: "./routes/",
             sync: true
         }, function (err, fileList) {
-            expect(globMock).not.toHaveBeenCalled();
-            expect(globMock.sync).toHaveBeenCalled();
+            expect(globMock.glob).not.toHaveBeenCalled();
+            expect(globMock.globSync).toHaveBeenCalled();
             expect(fileList).toEqual([
                 "file1",
                 "file2"
